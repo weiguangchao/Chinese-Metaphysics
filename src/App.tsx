@@ -5,6 +5,7 @@ import { BirthFormPanel } from './components/BirthFormPanel'
 import { FortunePanel } from './components/FortunePanel'
 import { PillarsTable } from './components/PillarsTable'
 import { RelationsPanel } from './components/RelationsPanel'
+import { ThemeMenu } from './components/ThemeMenu'
 
 export default function App() {
   const [form, setForm] = useState<BirthForm>(() => readFormFromUrl(window.location.search))
@@ -17,8 +18,9 @@ export default function App() {
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col gap-4 px-4 py-8 sm:py-12">
-      <header className="mb-2">
-        <h1 className="font-serif text-3xl font-semibold tracking-wide text-stone-900">八字排盘</h1>
+      <header className="mb-2 flex items-center justify-between gap-4">
+        <h1 className="font-serif text-3xl font-semibold tracking-wide text-stone-900 dark:text-stone-100">八字排盘</h1>
+        <ThemeMenu />
       </header>
 
       <Card>
@@ -42,11 +44,11 @@ export default function App() {
         </>
       ) : (
         <Card>
-          <p className="text-center text-sm text-stone-500">请输入 1900–2100 年之间的有效日期和时间</p>
+          <p className="text-center text-sm text-stone-500 dark:text-stone-400">请输入 1900–2100 年之间的有效日期和时间</p>
         </Card>
       )}
 
-      <footer className="mt-2 text-xs leading-relaxed text-stone-400">
+      <footer className="mt-2 text-xs leading-relaxed text-stone-400 dark:text-stone-500">
         年柱以立春为界，月柱以节为界，精确到分钟。年龄均为虚岁。起运按三天折一年推算。
       </footer>
     </main>
@@ -54,7 +56,7 @@ export default function App() {
 }
 
 function Card({ children }: { children: ReactNode }) {
-  return <section className="rounded-2xl bg-white/70 p-5 shadow-sm ring-1 ring-stone-200 sm:p-6">{children}</section>
+  return <section className="rounded-2xl bg-white/70 p-5 shadow-sm ring-1 ring-stone-200 sm:p-6 dark:bg-stone-900/70 dark:shadow-none dark:ring-stone-800">{children}</section>
 }
 
 function Summary({ chart }: { chart: Chart }) {
@@ -73,8 +75,8 @@ function Summary({ chart }: { chart: Chart }) {
 function Item({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1">
-      <dt className="text-xs text-stone-400">{label}</dt>
-      <dd className="text-stone-800">{children}</dd>
+      <dt className="text-xs text-stone-400 dark:text-stone-500">{label}</dt>
+      <dd className="text-stone-800 dark:text-stone-200">{children}</dd>
     </div>
   )
 }

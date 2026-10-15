@@ -1,9 +1,19 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
 }
 
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
-  @apply bg-stone-100 text-stone-800 antialiased;
+  @apply bg-stone-100 text-stone-800 antialiased dark:bg-stone-950 dark:text-stone-200;
 }

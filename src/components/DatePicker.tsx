@@ -115,7 +115,7 @@ function DayView({ cursor, selected, setCursor, setView, pick }: ViewProps & { s
         <HeaderButton onClick={() => setView('year')}>{cursor.year}年</HeaderButton>
         <HeaderButton onClick={() => setView('month')}>{cursor.month}月</HeaderButton>
       </Header>
-      <div className="grid grid-cols-7 text-center text-xs text-stone-400">
+      <div className="grid grid-cols-7 text-center text-xs text-stone-400 dark:text-stone-500">
         {WEEKDAYS.map((w) => (
           <div key={w} className="py-1.5">
             {w}
@@ -137,16 +137,23 @@ function DayView({ cursor, selected, setCursor, setView, pick }: ViewProps & { s
               onClick={() => pick(ymd)}
               className={`flex h-11 flex-col items-center justify-center rounded-lg leading-tight transition-colors disabled:invisible ${
                 isSelected
-                  ? 'bg-stone-800 text-white'
-                  : `hover:bg-stone-100 ${outside ? 'text-stone-300' : 'text-stone-800'} ${
-                      sameDay(now, ymd) ? 'ring-1 ring-stone-300 ring-inset' : ''
+                  ? 'bg-stone-800 text-white dark:bg-stone-200 dark:text-stone-900'
+                  : `hover:bg-stone-100 dark:hover:bg-stone-800 ${
+                      outside ? 'text-stone-300 dark:text-stone-600' : 'text-stone-800 dark:text-stone-200'
+                    } ${sameDay(now, ymd) ? 'ring-1 ring-stone-300 ring-inset dark:ring-stone-600' : ''
                     }`
               }`}
             >
               <span className="text-sm">{ymd.day}</span>
               <span
                 className={`text-[10px] ${
-                  isSelected ? 'text-stone-300' : label.jie && !outside ? 'text-red-600' : outside ? '' : 'text-stone-400'
+                  isSelected
+                    ? 'text-stone-300 dark:text-stone-500'
+                    : label.jie && !outside
+                      ? 'text-red-600 dark:text-red-400'
+                      : outside
+                        ? ''
+                        : 'text-stone-400 dark:text-stone-500'
                 }`}
               >
                 {label.text}
@@ -155,12 +162,12 @@ function DayView({ cursor, selected, setCursor, setView, pick }: ViewProps & { s
           )
         })}
       </div>
-      <div className="mt-2 flex items-center justify-end border-t border-stone-100 pt-2.5 text-xs">
+      <div className="mt-2 flex items-center justify-end border-t border-stone-100 pt-2.5 text-xs dark:border-stone-800">
         <button
           type="button"
           data-picker-close
           onClick={() => pick(now)}
-          className="rounded-md px-2 py-1 text-stone-700 transition-colors hover:bg-stone-100"
+          className="rounded-md px-2 py-1 text-stone-700 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
         >
           今天
         </button>
@@ -209,7 +216,7 @@ function YearView({ cursor, setCursor, setView }: ViewProps) {
         prevDisabled={start <= MIN_YEAR}
         nextDisabled={start + YEAR_PAGE > MAX_YEAR}
       >
-        <span className="px-2 text-sm font-medium text-stone-800">
+        <span className="px-2 text-sm font-medium text-stone-800 dark:text-stone-200">
           {start}–{Math.min(start + YEAR_PAGE - 1, MAX_YEAR)}
         </span>
       </Header>
@@ -265,7 +272,7 @@ function NavButton({ label, disabled, onClick, children }: { label: string; disa
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="flex size-8 items-center justify-center rounded-lg text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-800 disabled:pointer-events-none disabled:opacity-30"
+      className="flex size-8 items-center justify-center rounded-lg text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-800 disabled:pointer-events-none disabled:opacity-30 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-100"
     >
       {children}
     </button>
@@ -277,7 +284,7 @@ function HeaderButton({ onClick, children }: { onClick: () => void; children: Re
     <button
       type="button"
       onClick={onClick}
-      className="rounded-lg px-2 py-1 text-sm font-medium text-stone-800 transition-colors hover:bg-stone-100"
+      className="rounded-lg px-2 py-1 text-sm font-medium text-stone-800 transition-colors hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
     >
       {children}
     </button>
@@ -306,7 +313,9 @@ function GridButton({
       disabled={disabled}
       onClick={onClick}
       className={`h-12 rounded-lg text-sm transition-colors disabled:invisible ${
-        active ? 'bg-stone-800 text-white' : 'text-stone-700 hover:bg-stone-100'
+        active
+          ? 'bg-stone-800 text-white dark:bg-stone-200 dark:text-stone-900'
+          : 'text-stone-700 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800'
       }`}
     >
       {children}

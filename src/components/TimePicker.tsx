@@ -67,7 +67,7 @@ function Column({ title, options, selected, onPick, closesOnPick }: ColumnProps)
 
   return (
     <div className="flex flex-col">
-      <div className="pb-1.5 text-center text-xs text-stone-400">{title}</div>
+      <div className="pb-1.5 text-center text-xs text-stone-400 dark:text-stone-500">{title}</div>
       <div
         ref={listRef}
         role="listbox"
@@ -85,7 +85,9 @@ function Column({ title, options, selected, onPick, closesOnPick }: ColumnProps)
               data-picker-close={closesOnPick || undefined}
               onClick={() => onPick(value)}
               className={`flex h-9 w-full items-center justify-center rounded-lg text-sm tabular-nums transition-colors ${
-                isSelected ? 'bg-stone-800 text-white' : 'text-stone-700 hover:bg-stone-100'
+                isSelected
+                  ? 'bg-stone-800 text-white dark:bg-stone-200 dark:text-stone-900'
+                  : 'text-stone-700 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800'
               }`}
             >
               {pad(value)}

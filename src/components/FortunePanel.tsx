@@ -27,7 +27,7 @@ export function FortunePanel({ chart }: { chart: Chart }) {
   return (
     <div className="flex flex-col gap-6">
       <section>
-        <div className="mb-3 flex items-baseline justify-between gap-4 text-sm text-stone-500">
+        <div className="mb-3 flex items-baseline justify-between gap-4 text-sm text-stone-500 dark:text-stone-400">
           <h3>大运 · {chart.childLimit.forward ? '顺排' : '逆排'}</h3>
           <span className="text-xs">出生后{startOfLuckSpan(chart.childLimit) || '不足一小时'}起运</span>
         </div>
@@ -40,21 +40,21 @@ export function FortunePanel({ chart }: { chart: Chart }) {
               aria-pressed={i === selected}
               className={`flex w-16 shrink-0 flex-col items-center sm:w-auto sm:flex-1 gap-1 rounded-xl border py-2.5 transition-colors ${
                 i === selected
-                  ? 'border-stone-800 bg-white shadow-sm'
-                  : 'border-transparent bg-stone-200/50 hover:bg-white'
+                  ? 'border-stone-800 bg-white shadow-sm dark:border-stone-400 dark:bg-stone-800'
+                  : 'border-transparent bg-stone-200/50 hover:bg-white dark:bg-stone-800/50 dark:hover:bg-stone-800'
               }`}
             >
-              <span className="text-xs text-stone-500">{d.startYear}</span>
-              <span className="text-xs text-stone-500">{d.startAge}岁</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">{d.startYear}</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">{d.startAge}岁</span>
               <Pillar stem={d.stem} branch={d.branch} />
-              {i === currentIndex && <span className="text-[10px] text-red-600">当前</span>}
+              {i === currentIndex && <span className="text-[10px] text-red-600 dark:text-red-400">当前</span>}
             </button>
           ))}
         </div>
       </section>
 
       <section>
-        <h3 className="mb-3 text-sm text-stone-500">
+        <h3 className="mb-3 text-sm text-stone-500 dark:text-stone-400">
           流年 · {decade.startYear}–{decade.endYear}
           （{decade.sixtyCycle}运）
         </h3>
@@ -63,11 +63,11 @@ export function FortunePanel({ chart }: { chart: Chart }) {
             <div
               key={y.year}
               className={`flex flex-col items-center gap-1 rounded-xl py-2.5 ${
-                y.year === currentYear ? 'bg-white ring-2 ring-red-500/60' : 'bg-stone-200/50'
+                y.year === currentYear ? 'bg-white ring-2 ring-red-500/60 dark:bg-stone-800' : 'bg-stone-200/50 dark:bg-stone-800/50'
               }`}
             >
-              <span className="text-xs text-stone-500">{y.year}</span>
-              <span className="text-xs text-stone-500">{y.age}岁</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">{y.year}</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">{y.age}岁</span>
               <Pillar stem={y.stem} branch={y.branch} />
             </div>
           ))}
@@ -92,12 +92,12 @@ function startOfLuckSpan({ years, months, days, hours }: Chart['childLimit']) {
 function Pillar({ stem, branch }: { stem: StemView; branch: FortuneBranchView }) {
   return (
     <div className="flex flex-col items-center">
-      <span className="text-xs text-stone-600" title={stem.tenStar}>
+      <span className="text-xs text-stone-600 dark:text-stone-400" title={stem.tenStar}>
         {TEN_STAR_SHORT[stem.tenStar]}
       </span>
       <span className={`font-serif text-2xl leading-tight font-semibold ${ELEMENT_TEXT[stem.element]}`}>{stem.name}</span>
       <span className={`font-serif text-2xl leading-tight font-semibold ${ELEMENT_TEXT[branch.element]}`}>{branch.name}</span>
-      <span className="text-xs text-stone-600" title={branch.tenStar}>
+      <span className="text-xs text-stone-600 dark:text-stone-400" title={branch.tenStar}>
         {TEN_STAR_SHORT[branch.tenStar]}
       </span>
     </div>

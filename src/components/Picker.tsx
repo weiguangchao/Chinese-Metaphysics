@@ -1,4 +1,5 @@
-import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
+import { useDismiss } from './useDismiss'
 
 interface PickerProps {
   labelledBy: string
@@ -14,25 +15,7 @@ export function Picker({ labelledBy, display, placeholder, icon, children, onOpe
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
 
-  const dismiss = useEffectEvent((event: PointerEvent | KeyboardEvent) => {
-    if (event instanceof KeyboardEvent) {
-      if (event.key !== 'Escape') return
-      triggerRef.current?.focus()
-    } else if (rootRef.current?.contains(event.target as Node)) {
-      return
-    }
-    setOpen(false)
-  })
-
-  useEffect(() => {
-    if (!open) return
-    document.addEventListener('pointerdown', dismiss)
-    document.addEventListener('keydown', dismiss)
-    return () => {
-      document.removeEventListener('pointerdown', dismiss)
-      document.removeEventListener('keydown', dismiss)
-    }
-  }, [open])
+  useDismiss(open, rootRef, triggerRef, () => setOpen(false))
 
   const toggle = () => {
     if (!open) onOpen?.()
@@ -48,18 +31,20 @@ export function Picker({ labelledBy, display, placeholder, icon, children, onOpe
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={toggle}
-        className={`flex h-11 w-full items-center justify-between rounded-lg border bg-white px-3 text-left text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-stone-300 ${
-          open ? 'border-stone-500 ring-2 ring-stone-300' : 'border-stone-300 hover:border-stone-400'
+        className={`flex h-11 w-full items-center justify-between rounded-lg border bg-white px-3 text-left text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-stone-300 dark:bg-stone-900 dark:focus-visible:ring-stone-600 ${
+          open
+            ? 'border-stone-500 ring-2 ring-stone-300 dark:border-stone-500 dark:ring-stone-600'
+            : 'border-stone-300 hover:border-stone-400 dark:border-stone-700 dark:hover:border-stone-600'
         }`}
       >
-        <span className={display ? 'text-stone-800' : 'text-stone-400'}>{display ?? placeholder}</span>
-        <span className="text-stone-400">{icon}</span>
+        <span className={display ? 'text-stone-800 dark:text-stone-200' : 'text-stone-400 dark:text-stone-500'}>{display ?? placeholder}</span>
+        <span className="text-stone-400 dark:text-stone-500">{icon}</span>
       </button>
       {open && (
         <div
           role="dialog"
           aria-labelledby={labelledBy}
-          className="absolute top-full left-0 z-20 mt-2 rounded-2xl bg-white p-3 shadow-xl ring-1 ring-stone-200"
+          className="absolute top-full left-0 z-20 mt-2 rounded-2xl bg-white p-3 shadow-xl ring-1 ring-stone-200 dark:bg-stone-900 dark:shadow-black/40 dark:ring-stone-700"
           onClick={(event) => {
             if (!(event.target as HTMLElement).closest('[data-picker-close]')) return
             setOpen(false)

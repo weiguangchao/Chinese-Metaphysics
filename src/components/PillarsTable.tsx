@@ -8,11 +8,11 @@ export function PillarsTable({ chart }: { chart: Chart }) {
   const dayMasterLabel = chart.gender === 'male' ? '元男' : '元女'
   const row = (label: string, render: (p: PillarView, i: number) => ReactNode, className = '') => (
     <>
-      <div className="flex items-center text-xs text-stone-400 sm:text-sm">{label}</div>
+      <div className="flex items-center text-xs text-stone-400 sm:text-sm dark:text-stone-500">{label}</div>
       {chart.pillars.map((p, i) => (
         <div
           key={p.label}
-          className={`flex flex-col items-center justify-center ${i === DAY_PILLAR ? 'bg-stone-200/60' : ''} ${className}`}
+          className={`flex flex-col items-center justify-center ${i === DAY_PILLAR ? 'bg-stone-200/60 dark:bg-stone-800/60' : ''} ${className}`}
         >
           {render(p, i)}
         </div>
@@ -22,8 +22,8 @@ export function PillarsTable({ chart }: { chart: Chart }) {
 
   return (
     <div className="grid grid-cols-[2.5rem_repeat(4,1fr)] sm:grid-cols-[4rem_repeat(4,1fr)]">
-      {row('', (p) => p.label, 'pt-3 pb-1 text-sm text-stone-500 rounded-t-xl')}
-      {row('主星', (p, i) => (i === DAY_PILLAR ? dayMasterLabel : p.stem.tenStar), 'py-1 text-sm text-stone-700')}
+      {row('', (p) => p.label, 'pt-3 pb-1 text-sm text-stone-500 dark:text-stone-400 rounded-t-xl')}
+      {row('主星', (p, i) => (i === DAY_PILLAR ? dayMasterLabel : p.stem.tenStar), 'py-1 text-sm text-stone-700 dark:text-stone-300')}
       {row(
         '天干',
         (p) => <BigChar name={p.stem.name} element={p.stem.element} />,
@@ -41,7 +41,7 @@ export function PillarsTable({ chart }: { chart: Chart }) {
             {p.hiddenStems.map((h) => (
               <li key={h.name} title={h.type}>
                 <span className={`font-serif font-semibold ${ELEMENT_TEXT[h.element]}`}>{h.name}</span>
-                <span className="ml-1 text-stone-600">{h.tenStar}</span>
+                <span className="ml-1 text-stone-600 dark:text-stone-400">{h.tenStar}</span>
               </li>
             ))}
           </ul>
