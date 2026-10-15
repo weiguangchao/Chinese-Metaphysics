@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { Chart, Element, PillarView } from '../bazi/chart'
+import type { Chart, Element, PillarView } from '../chart/chart'
 import { ELEMENT_EMOJI, ELEMENT_TEXT } from './elementStyles'
 
 const DAY_PILLAR = 2

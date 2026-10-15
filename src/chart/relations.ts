@@ -2,13 +2,11 @@ import { EarthBranch, HeavenStem } from 'tyme4ts'
 
 interface Match {
   label: string
-  /** Pillar indices involved. */
   indices: number[]
 }
 
 const RESTRAINS: Record<string, string> = { 木: '土', 土: '水', 水: '火', 火: '金', 金: '木' }
 
-// Tables follow the glossary in AGENTS.md. A trailing character is the transformed element.
 const FIVE_COMBINATIONS = ['甲己土', '乙庚金', '丙辛水', '丁壬木', '戊癸火']
 const SIX_OPPOSITIONS = ['子午', '丑未', '寅申', '卯酉', '辰戌', '巳亥']
 const SIX_COMBINATIONS = ['子丑土', '寅亥木', '卯戌火', '辰酉金', '巳申水', '午未土']
@@ -25,7 +23,6 @@ function pairs(count: number): [number, number][] {
   return result
 }
 
-/** Each pair whose element restrains the other's, labelled restrainer first. */
 function restraints(names: string[], elementOf: (name: string) => string): Match[] {
   return pairs(names.length).flatMap(([i, j]) => {
     if (RESTRAINS[elementOf(names[i])] === elementOf(names[j])) return [{ label: `${names[i]}克${names[j]}`, indices: [i, j] }]
@@ -34,7 +31,6 @@ function restraints(names: string[], elementOf: (name: string) => string): Match
   })
 }
 
-/** Each pair matching the first two characters of an entry, in either order. */
 function tablePairs(names: string[], table: string[], label: (entry: string) => string): Match[] {
   return pairs(names.length).flatMap(([i, j]) => {
     const entry = table.find((e) => (names[i] === e[0] && names[j] === e[1]) || (names[j] === e[0] && names[i] === e[1]))
@@ -42,7 +38,6 @@ function tablePairs(names: string[], table: string[], label: (entry: string) => 
   })
 }
 
-/** Index triples whose branches are exactly the three in `group`. */
 function triples(names: string[], group: string): number[][] {
   const result: number[][] = []
   for (let i = 0; i < names.length; i++)
@@ -54,7 +49,6 @@ function triples(names: string[], group: string): number[][] {
   return result
 }
 
-/** Pair matches from a three-branch group, minus pairs that sit inside a complete triple. */
 function partialPairs(names: string[], group: string, label: (pair: string) => string, table: string[]): Match[] {
   const found = triples(names, group)
   return tablePairs(names, table, label).filter((m) => !found.some((t) => m.indices.every((i) => t.includes(i))))
@@ -62,7 +56,6 @@ function partialPairs(names: string[], group: string, label: (pair: string) => s
 
 const labels = (matches: Match[]) => [...new Set(matches.map((m) => m.label))]
 
-/** 天干留意: restraints, then five combinations. */
 export function stemRelations(names: string[]): string[] {
   return labels([
     ...restraints(names, (n) => HeavenStem.fromName(n).getElement().getName()),
@@ -70,10 +63,6 @@ export function stemRelations(names: string[]): string[] {
   ])
 }
 
-/**
- * 地支留意: restraints, clashes, six combinations, three combinations, half three combinations, punishments.
- * A restraint is dropped when its two branches already clash, combine, or punish each other.
- */
 export function branchRelations(names: string[]): string[] {
   const threeCombinations = THREE_COMBINATIONS.flatMap((entry) => {
     const group = entry.slice(0, 3)

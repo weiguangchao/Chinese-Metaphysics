@@ -1,4 +1,4 @@
-import type { Element } from '../bazi/chart'
+import type { Element } from '../chart/chart'
 
 export const ELEMENT_TEXT: Record<Element, string> = {
   木: 'text-emerald-700',

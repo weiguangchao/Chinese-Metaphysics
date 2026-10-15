@@ -2,17 +2,13 @@ import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from 'rea
 
 interface PickerProps {
   labelledBy: string
-  /** Text on the trigger; null shows the placeholder. */
   display: string | null
   placeholder: string
   icon: ReactNode
-  /** Panel content. Clicking an element marked `data-picker-close` closes the panel. */
   children: ReactNode
-  /** Runs each time the panel opens, e.g. to sync its view to the current value. */
   onOpen?: () => void
 }
 
-/** A trigger button with a popover panel that closes on outside click or Escape. */
 export function Picker({ labelledBy, display, placeholder, icon, children, onOpen }: PickerProps) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)

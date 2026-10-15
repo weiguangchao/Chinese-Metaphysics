@@ -25,7 +25,6 @@ export type Element = '木' | '火' | '土' | '金' | '水'
 
 export interface BirthInput extends WallTime {
   gender: Gender
-  /** 晚子时 (23:00–24:00) keeps the current day pillar instead of starting the next day. */
   lateZiSameDay: boolean
 }
 
@@ -51,13 +50,10 @@ export interface PillarView {
   stem: StemView
   branch: BranchView
   hiddenStems: HiddenStemView[]
-  /** 星运: the DayMaster's twelve-stage state on this branch. */
   terrain: string
-  /** 自坐: the pillar's own stem's twelve-stage state on its branch. */
   selfTerrain: string
 }
 
-/** A fortune branch carries the TenStar of its main-qi hidden stem. */
 export interface FortuneBranchView extends BranchView {
   tenStar: string
 }
@@ -82,15 +78,12 @@ export interface DecadeFortuneView {
 }
 
 export interface Chart {
-  /** The Beijing time the chart is cast for. */
   solarTime: WallTime
   lunarDate: string
   zodiac: string
   gender: Gender
   pillars: PillarView[]
-  /** 天干留意 */
   stemRelations: string[]
-  /** 地支留意 */
   branchRelations: string[]
   childLimit: {
     forward: boolean
@@ -104,7 +97,6 @@ export interface Chart {
 
 const DECADE_COUNT = 11
 
-// Ordered 本气, 中气, 余气 as in AGENTS.md. tyme4ts orders 巳 as 丙庚戊, so the table lives here.
 const HIDDEN_STEMS: Record<string, string> = {
   子: '癸',
   丑: '己癸辛',
@@ -181,7 +173,6 @@ export function castChart(input: BirthInput): Chart {
   const { year, month, day, hour, minute } = input
   const solarTime = SolarTime.fromYmdHms(year, month, day, hour, minute, 0)
 
-  // tyme4ts reads the 子时 convention from a global provider, so set it on every call.
   LunarHour.provider = input.lateZiSameDay ? new LunarSect2EightCharProvider() : new DefaultEightCharProvider()
 
   const childLimit = ChildLimit.fromSolarTime(

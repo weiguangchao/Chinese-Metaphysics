@@ -1,4 +1,4 @@
-import type { Chart } from '../bazi/chart'
+import type { Chart } from '../chart/chart'
 
 export function RelationsPanel({ chart }: { chart: Chart }) {
   return (

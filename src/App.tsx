@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { castChart, type Chart } from './bazi/chart'
+import { castChart, type Chart } from './chart/chart'
 import { formToSearch, readFormFromUrl, toBirthInput, type BirthForm } from './birthForm'
 import { BirthFormPanel } from './components/BirthFormPanel'
 import { FortunePanel } from './components/FortunePanel'

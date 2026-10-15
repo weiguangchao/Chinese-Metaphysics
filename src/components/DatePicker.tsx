@@ -5,7 +5,6 @@ import { CalendarIcon, ChevronIcon, Picker } from './Picker'
 
 interface Props {
   labelledBy: string
-  /** YYYY-MM-DD */
   value: string
   onChange: (value: string) => void
 }
@@ -37,7 +36,6 @@ function today(): Ymd {
   return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() }
 }
 
-/** Six Monday-first weeks covering the month, padded with days from the neighbouring months. */
 function monthCells(year: number, month: number): Ymd[] {
   const lead = (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7
   const start = Date.UTC(year, month - 1, 1 - lead)
@@ -47,7 +45,6 @@ function monthCells(year: number, month: number): Ymd[] {
   })
 }
 
-/** The solar term on its first day, the lunar month on 初一, otherwise the lunar day. */
 function lunarLabel({ year, month, day }: Ymd): { text: string; jie: boolean } {
   const solarDay = SolarDay.fromYmd(year, month, day)
   const termDay = solarDay.getTermDay()

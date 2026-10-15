@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Chart, FortuneBranchView, StemView } from '../bazi/chart'
+import type { Chart, FortuneBranchView, StemView } from '../chart/chart'
 import { ELEMENT_TEXT } from './elementStyles'
 
 const currentYear = new Date().getFullYear()

@@ -1,9 +1,7 @@
-import type { BirthInput, Gender } from './bazi/chart'
+import type { BirthInput, Gender } from './chart/chart'
 
 export interface BirthForm {
-  /** YYYY-MM-DD */
   date: string
-  /** HH:MM */
   time: string
   gender: Gender
   lateZiSameDay: boolean

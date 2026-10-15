@@ -3,7 +3,6 @@ import { ClockIcon, Picker } from './Picker'
 
 interface Props {
   labelledBy: string
-  /** HH:MM */
   value: string
   onChange: (value: string) => void
 }
@@ -13,7 +12,6 @@ const HOURS = Array.from({ length: 24 }, (_, i) => i)
 const MINUTES = Array.from({ length: 60 }, (_, i) => i)
 
 const pad = (n: number) => String(n).padStart(2, '0')
-/** 子时 spans 23:00–00:59, then each branch covers the next two hours. */
 const shichen = (hour: number) => `${BRANCHES[Math.floor((hour + 1) / 2) % 12]}时`
 
 function parse(value: string): { hour: number; minute: number } | null {
@@ -61,7 +59,6 @@ interface ColumnProps {
 function Column({ title, options, selected, onPick, closesOnPick }: ColumnProps) {
   const listRef = useRef<HTMLDivElement>(null)
 
-  // Center the selected option when the panel opens.
   useLayoutEffect(() => {
     const list = listRef.current
     const option = list?.querySelector<HTMLElement>('[aria-selected="true"]')
